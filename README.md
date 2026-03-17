@@ -38,20 +38,26 @@ Built using **Flask, SQLite, and Google Maps API**, this application demonstrate
 
 ## 🖼️ Screenshots
 
-> *(Add your screenshots here — this section is critical for recruiters)*
+> *(Add your screenshots here *
 
 ```md
 ![Home Page](./static/home.png)
 ![Map View](./static/map.png)
 ![Results](./static/results.png)
-🛠️ Tech Stack
-Layer	Technology
-Frontend	HTML5, CSS3, JavaScript
-Backend	Flask (Python)
-Database	SQLite
-Data Processing	Pandas
-APIs	Google Maps JavaScript API
-📂 Project Structure
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|------|----------|
+| Frontend | HTML5, CSS3, JavaScript |
+| Backend | Flask (Python) |
+| Database | SQLite |
+| Data Processing | Pandas |
+| APIs | Google Maps JavaScript API |
+
+---
+
+## 📂 Project Structure
 EV-Charging-Locator/
 │
 ├── app.py
@@ -61,35 +67,46 @@ EV-Charging-Locator/
 ├── users.db
 │
 ├── templates/
-│   ├── home.html
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   └── result.html
+│ ├── home.html
+│ ├── index.html
+│ ├── login.html
+│ ├── register.html
+│ └── result.html
 │
 └── static/
-    ├── style.css
-    ├── forecast.png
-    └── stations.png
-⚙️ Getting Started
-Prerequisites
+├── style.css
+├── forecast.png
+└── stations.png
 
-Python 3.10+
 
-Google Maps API Key
 
-Installation
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Python 3.10+
+- Google Maps API Key
+
+### Installation
+
+```bash
 git clone https://github.com/your-username/ev-charging-locator.git
 cd ev-charging-locator
 
 pip install -r requirements.txt
 python app.py
 
+
+
 Open in browser:
 
 http://127.0.0.1:5000
 
 ⚠️ Add your Google Maps API key in the template before running.
+
+
 
 🧠 How It Works
 User Login
