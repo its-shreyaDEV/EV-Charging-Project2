@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Page title (shown in browser tab) -->
+    <title>EV Charge Finder - GPS Portal</title>
+
+    <!-- Makes website responsive on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Importing custom fonts (UI/branding) -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset default browser spacing and set box model */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Global color variables (used throughout UI) */
+        :root {
+            --green: #00e5a0;
+            --green-dim: #00b37a;
+            --dark: #080e12;
+            --dark2: #0d1a22;
+            --card: rgba(255,255,255,0.04);
+            --border: rgba(255,255,255,0.08);
+            --text: #e8f0f5;
+            --muted: #7a9aac;
+        }
+
+        /* Main page styling */
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Navigation bar (top section) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        /* Main card container */
+        .card {
+            max-width: 480px;
+            margin-top: 80px;
+        }
+
+        /* Section block (used for battery, GPS, coordinates) */
+        .section-block {
+            padding: 18px;
+        }
+
+        /* Battery UI container */
+        .battery-display {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Battery fill animation */
+        .battery-fill {
+            width: 50%;
+        }
+
+        /* GPS button styling */
+        #gps-btn {
+            cursor: pointer;
+        }
+
+        /* Coordinates input grid */
+        .coords-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Submit button styling */
+        .find-btn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navigation bar with logo and logout -->
+<nav>
+    <a href="/" class="nav-brand">
+        <!-- Lightning icon (EV theme) -->
+        <div class="bolt"></div>
+        EV Charge Finder
+    </a>
+
+    <!-- Logout button -->
+    <a href="/logout" class="logout-link">
+        Logout
+    </a>
+</nav>
+
+<!-- Main UI card -->
+<div class="card">
+
+    <!-- Header section -->
+    <div class="card-header">
+        <h1>Find EV Stations</h1>
+        <p>Optimised for your current range & location</p>
+    </div>
+
+    <!-- Form to send data to backend -->
+    <form method="POST" action="/result">
+
+        <!-- Battery Section -->
+        <div class="section-block">
+            <div class="block-label">Battery Level</div>
+
+            <!-- Battery visual bar -->
+            <div class="battery-display">
+                <div class="battery-body">
+                    <div class="battery-fill" id="batt-fill"></div>
+                </div>
+                <div class="battery-pct" id="batt-pct">50%</div>
+            </div>
+
+            <!-- Slider input -->
+            <input type="range" name="battery_percent"
+                   min="1" max="100" value="50"
+                   oninput="updateBattery(this.value)">
+        </div>
+
+        <!-- GPS Section -->
+        <div class="section-block">
+            <div class="block-label">Your Location</div>
+
+            <div class="gps-row">
+                <!-- Button to fetch live GPS -->
+                <button type="button" onclick="getLiveGPS()">
+                    Get GPS
+                </button>
+
+                <!-- GPS status message -->
+                <div id="gps-status">
+                    Tap to detect your location
+                </div>
+            </div>
+        </div>
+
+        <!-- Coordinates Section -->
+        <div class="section-block">
+            <div class="block-label">Coordinates</div>
+
+            <!-- Latitude and Longitude inputs -->
+            <input type="number" id="latitude" name="latitude" placeholder="Latitude" required>
+            <input type="number" id="longitude" name="longitude" placeholder="Longitude" required>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="find-btn">
+            Get Reachable Stations
+        </button>
+
+    </form>
+</div>
+
+<script>
+    /* Updates battery UI dynamically */
+    function updateBattery(val) {
+        val = parseInt(val);
+
+        // Update width and text
+        document.getElementById('batt-fill').style.width = val + '%';
+        document.getElementById('batt-pct').innerText = val + '%';
+    }
+
+    /* Fetch live GPS location */
+    function getLiveGPS() {
+        const lat = document.getElementById('latitude');
+        const lon = document.getElementById('longitude');
+
+        // Check if browser supports GPS
+        if (!navigator.geolocation) {
+            alert("GPS not supported");
+            return;
+        }
+
+        // Get current position
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            lat.value = pos.coords.latitude;
+            lon.value = pos.coords.longitude;
+        });
+    }
+
+    /* Initialize battery display */
+    updateBattery(50);
+
+    /* Auto-fetch GPS on page load */
+    window.onload = getLiveGPS;
+</script>
+
+</body>
+</html>
